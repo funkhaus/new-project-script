@@ -1,0 +1,23 @@
+{
+
+    "databaseName": "newDB",
+    "themeName": "theme123",
+    "containsStore": false,
+    "renameJS": true,
+    "runFontSetup": true,
+    "selfDestruct": false,
+
+    "localRoot": "/Users/Sander/Desktop/MAMP Sites/",
+    "localPath": "theme123",
+
+    "fontFamily": "",
+    "fontWeight": 400,
+    "fontStyle": "normal",
+    "ignoredExtensions": [
+        "html",
+        "svg"
+    ],
+    "fontRelativePath": "fonts/",
+    "packagedRelativePath": "fonts-packaged/"
+
+}
