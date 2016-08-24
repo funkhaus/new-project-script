@@ -60,8 +60,16 @@ const   unzipWp = function(filename){
 const   setupConfig = function(){
     console.log('Zip file removed! Renaming theme folder and variables in Wordpress sample config...');
 
+    // Rename folder and config-sample file
     fs.renameSync(localRoot + "wordpress", wpPath);
     fs.renameSync(wpPath + "wp-config-sample.php", wpPath + "wp-config.php");
+    // Replace database name, username, and password
+    let configContents = fs.readFileSync(wpPath + 'wp-config.php', 'utf-8');
+    let newData = configContents.replace('database_name_here', config.databaseName);
+    newData = newData.replace('username_here', 'root');
+    newData = newData.replace('password_here', 'root');
+    newData = newData.replace("define('WP_DEBUG', false);", "define('WP_DEBUG', true);");
+    fs.writeFileSync(wpPath + 'wp-config.php', newData, 'utf8', 'w+');
 
 }
 

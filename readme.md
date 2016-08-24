@@ -7,8 +7,6 @@ How to use:
 1. That's it!
 
 ## Todo
-4. Replace database name, username, and password for localhost development
-5. Turn on WP_DEBUG
 6. Download the latest Funkhaus style guide commit
 7. Install the Funkhaus template folder into the new WordPress install
 8. Remove the store (the function in functions.php and the store/ and woocommerce/ folders) if desired
