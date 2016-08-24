@@ -7,8 +7,6 @@ How to use:
 1. That's it!
 
 ## Todo
-2. Unzip the WP install and deletes the .zip afterwards
-3. Rename wp-config-sample to wp-config
 4. Replace database name, username, and password for localhost development
 5. Turn on WP_DEBUG
 6. Download the latest Funkhaus style guide commit

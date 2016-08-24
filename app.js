@@ -17,27 +17,52 @@
 //      2. Download the latest version of WordPress.
 
 const   request     = require('request'),
-        fs          = require('fs');
+        fs          = require('fs'),
+        unzip       = require('unzip');
 
 // Load preferences
-let config = JSON.parse( fs.readFileSync('config.json', 'utf-8') );
+const   config = JSON.parse( fs.readFileSync('config.json', 'utf-8') );
 
-// Set root dir for this project
-let root = config.localRoot + config.localPath + "/";
-// Make root directory
-fs.mkdir(root);
+// Shortcuts to preferences
+let     localRoot   = config.localRoot,
+        wpPath      = config.localRoot + config.themeName + "/",
+        themeFolder = wpPath + "wp-content/themes/" + config.themeName;
 
-// Download WP
-let fileUrl = "http://wordpress.org/latest.zip";
-let output = root + "wp.zip";
-request(fileUrl)
-    // Save WP to root dir
-    .pipe(fs.createWriteStream(output))
-    .on('open', () => {
-        // Download started
-        console.log('Downloading latest version of Wordpress...');
-    })
-    .on('close', () => {
-        // Download complete
-        console.log('Written!');
-    });
+const   app = function(){
+    // Download WP
+    let fileUrl = "http://wordpress.org/latest.zip";
+    let fileName = "wp.zip";
+    let outputPath = localRoot + fileName;
+    request(fileUrl)
+        // Save WP to root dir
+        .pipe(fs.createWriteStream(outputPath))
+        .on('open', () => {
+            // Download started
+            console.log('Downloading latest version of Wordpress...');
+        })
+        .on('close', () => {
+            // Download complete
+            console.log('Wordpress downloaded! Unzipping...');
+            unzipWp(outputPath);
+        });
+}
+
+const   unzipWp = function(filename){
+    fs.createReadStream(filename)
+        .pipe( unzip.Extract({ path: localRoot }) )
+        .on('close', () => {
+            console.log('Wordpress unzipped! Removing zip file...');
+            fs.unlinkSync(filename);
+            setupConfig();
+        });
+}
+
+const   setupConfig = function(){
+    console.log('Zip file removed! Renaming theme folder and variables in Wordpress sample config...');
+
+    fs.renameSync(localRoot + "wordpress", wpPath);
+    fs.renameSync(wpPath + "wp-config-sample.php", wpPath + "wp-config.php");
+
+}
+
+app();
