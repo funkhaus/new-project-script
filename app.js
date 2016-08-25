@@ -18,7 +18,8 @@
 
 const   request     = require('request'),
         fs          = require('fs'),
-        unzip       = require('unzip');
+        unzip       = require('unzip'),
+        http        = require('http');
 
 // Load preferences
 const   config = JSON.parse( fs.readFileSync('config.json', 'utf-8') );
@@ -69,7 +70,23 @@ const   setupConfig = function(){
     newData = newData.replace('username_here', 'root');
     newData = newData.replace('password_here', 'root');
     newData = newData.replace("define('WP_DEBUG', false);", "define('WP_DEBUG', true);");
-    fs.writeFileSync(wpPath + 'wp-config.php', newData, 'utf8', 'w+');
+
+    http.get({
+        host: 'api.wordpress.org',
+        path: '/secret-key/1.1/salt/'
+    }, function(res){
+        var salt = '';
+
+        res.on('data', function(chunk){
+            salt += chunk;
+        });
+
+        res.on('end', function(){
+            newData = newData.replace(/define\('AUTH_KEY(?:.*[\s\S]*)unique phrase here'\);/, salt);
+            fs.writeFileSync(wpPath + 'wp-config.php', newData, 'utf8', 'w+');
+            console.log('Config updated!' );
+        });
+    });
 
 }
 
