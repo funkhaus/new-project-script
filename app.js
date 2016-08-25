@@ -27,7 +27,7 @@ const   config = JSON.parse( fs.readFileSync('config.json', 'utf-8') );
 // Shortcuts to preferences
 let     localRoot   = config.localRoot,
         wpPath      = config.localRoot + config.themeName + "/",
-        themeFolder = wpPath + "wp-content/themes/" + config.themeName;
+        themeFolder = wpPath + "wp-content/themes/" + config.themeName + '/';
 
 const   app = function(){
     // Download WP
@@ -44,17 +44,17 @@ const   app = function(){
         .on('close', () => {
             // Download complete
             console.log('Wordpress downloaded! Unzipping...');
-            unzipWp(outputPath);
+            unzipWp(outputPath, localRoot, setupConfig);
         });
 }
 
-const   unzipWp = function(filename){
+const   unzipWp = function(filename, destinationPath, onComplete){
     fs.createReadStream(filename)
-        .pipe( unzip.Extract({ path: localRoot }) )
+        .pipe( unzip.Extract({ path: destinationPath }) )
         .on('close', () => {
-            console.log('Wordpress unzipped! Removing zip file...');
+            console.log(filename + ' unzipped! Removing zip file...');
             fs.unlinkSync(filename);
-            setupConfig();
+            onComplete();
         });
 }
 
@@ -84,10 +84,28 @@ const   setupConfig = function(){
         res.on('end', function(){
             newData = newData.replace(/define\('AUTH_KEY(?:.*[\s\S]*)unique phrase here'\);/, salt);
             fs.writeFileSync(wpPath + 'wp-config.php', newData, 'utf8', 'w+');
-            console.log('Config updated!' );
+            console.log('Config updated! Downloading latest Funkhaus template...');
+            downloadFunkhausTemplate();
         });
     });
 
+}
+
+const   downloadFunkhausTemplate = function(){
+    let fileUrl = 'https://github.com/funkhaus/style-guide/archive/master.zip';
+    let fileName = 'funkhaus.zip';
+    let destinationPath = wpPath + 'wp-content/themes/';
+    let outputPath = destinationPath + fileName;
+    request(fileUrl)
+        // Save WP to root dir
+        .pipe(fs.createWriteStream(outputPath))
+        .on('close', () => {
+            // Download complete
+            console.log('Funkhaus template downloaded! Unzipping...');
+            unzipWp(outputPath, destinationPath, function(){
+                console.log('done!');
+            });
+        });
 }
 
 app();
