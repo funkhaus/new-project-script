@@ -1,6 +1,5 @@
 {
 
-    "databaseName": "newDB",
     "themeName": "test",
     "containsStore": false,
     "renameJS": true,
@@ -8,6 +7,12 @@
     "selfDestruct": false,
 
     "localRoot": "/Users/Sander/Desktop/MAMP Sites/",
+
+    "localhost": "localhost:8888",
+    "dbUser": "root",
+    "dbPassword": "root",
+    "databaseName": "newDB",
+    "dbPort": 8889,
 
     "fontFamily": "",
     "fontWeight": 400,

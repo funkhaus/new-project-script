@@ -12,6 +12,7 @@
   "dependencies": {
     "fs": "0.0.2",
     "http": "0.0.0",
+    "mysql": "^2.11.1",
     "request": "^2.74.0",
     "rmdir": "^1.2.0",
     "unzip": "^0.1.11"
