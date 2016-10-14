@@ -1,7 +1,7 @@
 {
 
     "databaseName": "newDB",
-    "themeName": "theme123",
+    "themeName": "test",
     "containsStore": false,
     "renameJS": true,
     "runFontSetup": true,

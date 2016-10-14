@@ -19,7 +19,8 @@
 const   request     = require('request'),
         fs          = require('fs'),
         unzip       = require('unzip'),
-        http        = require('http');
+        http        = require('http'),
+        rmdir       = require('rmdir');
 
 // Load preferences
 const   config = JSON.parse( fs.readFileSync('config.json', 'utf-8') );
@@ -30,6 +31,7 @@ let     localRoot   = config.localRoot,
         themeFolder = wpPath + "wp-content/themes/" + config.themeName + '/';
 
 const   app = function(){
+    console.log('Starting new theme "' + config.themeName + '"!');
     // Download WP
     let fileUrl = "http://wordpress.org/latest.zip";
     let fileName = "wp.zip";
@@ -103,7 +105,18 @@ const   downloadFunkhausTemplate = function(){
             // Download complete
             console.log('Funkhaus template downloaded! Unzipping...');
             unzipWp(outputPath, destinationPath, function(){
-                console.log('done!');
+
+                console.log('Moving Funkhaus template files...');
+                let unzippedPath = destinationPath + 'style-guide-master/template/';
+                let newPath = destinationPath + config.themeName;
+                fs.renameSync(unzippedPath, newPath);
+
+                console.log('Template files moved! Deleting old directory...');
+                if( fs.existsSync(destinationPath + 'style-guide-master/') ){
+                    rmdir(destinationPath + 'style-guide-master/');
+                }
+
+
             });
         });
 }

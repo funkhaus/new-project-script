@@ -3,7 +3,7 @@ How to use:
 
 1. `npm install` this package.
 1. Edit `config.json` to match desired parameters.
-1. `node new-funkhaus` to download, parse, generate, etc. all files in the target location.
+1. `node app.js` to download, parse, generate, etc. all files in the target location.
 1. That's it!
 
 ## Todo
