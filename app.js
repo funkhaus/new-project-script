@@ -22,7 +22,8 @@ const   request     = require('request'),
         unzip       = require('unzip'),
         http        = require('http'),
         rmdir       = require('rmdir'),
-        mysql       = require('mysql');
+        mysql       = require('mysql'),
+        open        = require('open');
 
 // Load preferences
 const   config = JSON.parse( fs.readFileSync('config.json', 'utf-8') );
@@ -139,14 +140,6 @@ const   downloadFunkhausTemplate = function(){
 }
 
 const   setupDatabase = function(){
-/*
-    let newDb = new db.DB({
-        host: config.localhost,
-        user: config.dbUser,
-        password: config.dbPassword,
-        database: config.databaseName
-    });
-*/
 
     let dbConfig = {
         user: config.dbUser,
@@ -156,21 +149,32 @@ const   setupDatabase = function(){
 
     let connection = mysql.createConnection(dbConfig);
 
+    // connect to localhost and create new DB
     connection.connect((err) => {
         if(err) { console.log('DB error: ' + err); return; }
 
-        connection.query('CREATE DATABASE IF NOT EXISTS ' + config.databaseName, function(err, res){
-            console.log('Setting up database...');
+        console.log('Setting up database...');
 
-            finish();
+        connection.query('CREATE DATABASE IF NOT EXISTS ' + config.databaseName, function(err, res){
+            console.log('Database setup complete! Starting WP installation...');
+
+            connection.end();
+
+            runWpInstall();
         });
 
     });
 
 }
 
-const   finish = function(){
-    console.log('Theme setup complete!');
+const   runWpInstall = function(){
+    open('http://' + config.localhost + '/' + config.themeName + '/wp-admin/setup-config.php?step=1');
+    console.log('Theme setup complete! Fill the form with this information:');
+    console.log('Database Name: ' + config.databaseName);
+    console.log('Username: ' + config.dbUser);
+    console.log('Password: ' + config.dbPassword);
+    console.log('Database Host: ' + config.localhost);
+    console.log('Table Prefix: (None set - can leave as "wp_")');
 }
 
 app();
