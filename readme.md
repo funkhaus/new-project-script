@@ -3,16 +3,20 @@ How to use:
 
 1. `npm install` this package.
 1. Edit `config.json` to match desired parameters.
-1. `node app.js` to download, parse, generate, etc. all files in the target location.
-1. That's it!
+    * `themeName` is the name of your theme. Don't use spaces - use `interrogate2016` instead of `Interrogate 2016`, for example.
+    * `localRoot` is your local MAMP site directory. See MAMP > Web Server > Document Root.
+    * `localhost` is the name of your machine's localhost, along with the  port number: `localhost:81` or `localhost:8888`, for example. See MAMP > Ports > Apache Port.
+    * `themeTemplateUrl` is the location of a .zip file containing the WP theme template to use.
+    * `dbUser` is the MySQL username of an account with read/write access to your local databases.
+    * `dbPassword` is the password for the above account.
+    * `dbName` is the name of the database you'll be creating for the new Wordpress install.
+    * `dbPort` is the port number of the local MySQL server. See MAMP > Ports > MySQL Port.
+1. Navigate to the containing directory in Terminal, then use `node app` to download, parse, generate, etc. all files in the target location.
+1. You'll be directed to the appropriate wp-config page when the downloads and setup complete. Enter the given information there to finish the WP install.
+1. Finish the WP install like normal and that's it! You've got a functioning local WP installation at `localhost:[port]/[themeName]`, including the new database and `wp-content/themes/[themeName]` theme downloaded from the Funkhaus style guide.
 
-## Todo
-6. Download the latest Funkhaus style guide commit
-7. Install the Funkhaus template folder into the new WordPress install
-8. Remove the store (the function in functions.php and the store/ and woocommerce/ folders) if desired
-9. Rename and refactors the JS file
-10. Clean up extra files along the way
+
 
 ## Wishlist
-1. Create new local database and copy over data
-2. Create repo and associate it with the new theme
+1. Create repo and associate it with the new theme
+1. Set up DeployHQ automatically

@@ -1,27 +1,15 @@
 {
 
-    "themeName": "test",
-    "containsStore": false,
-    "renameJS": true,
-    "runFontSetup": true,
-    "selfDestruct": false,
+    "themeName": "your-theme-name-here",
 
     "localRoot": "/Users/Sander/Desktop/MAMP Sites/",
-
     "localhost": "localhost:8888",
+
+    "themeTemplateUrl": "https://github.com/funkhaus/style-guide/archive/master.zip",
+
     "dbUser": "root",
     "dbPassword": "root",
-    "databaseName": "newDB",
-    "dbPort": 8889,
-
-    "fontFamily": "",
-    "fontWeight": 400,
-    "fontStyle": "normal",
-    "ignoredExtensions": [
-        "html",
-        "svg"
-    ],
-    "fontRelativePath": "fonts/",
-    "packagedRelativePath": "fonts-packaged/"
+    "dbName": "yourDbNameHere",
+    "dbPort": 8889
 
 }
