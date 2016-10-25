@@ -10,6 +10,8 @@
     "dbUser": "root",
     "dbPassword": "root",
     "dbName": "yourDbNameHere",
-    "dbPort": 8889
+    "dbPort": 8889,
+
+    "debugMode": true
 
 }

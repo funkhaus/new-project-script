@@ -62,6 +62,13 @@ const   app = function(){
 const   cleanupWpDownload = function(){
     console.log('Zip file removed! Renaming theme folder...');
 
+    // If we're set to auto-debug, make it so in wp-config
+    if( config.debugMode ){
+        let wpConfigContents = fs.readFileSync(localRoot + 'wordpress/wp-config-sample.php', 'utf8');
+        let newWpConfigContents = wpConfigContents.replace('define(\'WP_DEBUG\', false);', 'define(\'WP_DEBUG\', true);');
+        fs.writeFileSync(localRoot + 'wordpress/wp-config-sample.php', newWpConfigContents);
+    }
+
     // Rename 'wordpress' folder (the newly-unzipped download of WP) and relocate it to the final theme path (localRoot + themeName)
     fs.renameSync(localRoot + "wordpress", wpPath);
 
