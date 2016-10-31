@@ -21,3 +21,4 @@ How to use:
 ## Wishlist
 1. Create repo and associate it with the new theme
 1. Set up DeployHQ automatically
+1. Create copy of existing site (pull theme from live site, export existing database, etc.)
