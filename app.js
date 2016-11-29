@@ -20,6 +20,8 @@ const   request     = require('request'),
         mysql       = require('mysql'),
         open        = require('open');
 
+require('shelljs/global');
+
 // Load preferences
 const   config = JSON.parse( fs.readFileSync('config.json', 'utf-8') );
 
@@ -146,10 +148,26 @@ const   setupDatabase = function(){
                 return;
             }
 
-            console.log('Database setup complete! Starting WP installation...');
+            console.log('Database setup complete!');
 
             // Close MySQL server connection
             connection.end();
+
+            if( config.gitInit ){
+                console.log('Setting up repo...');
+                // Escape any spaces in the theme path
+                let escapedPath = themeFolder.replace(' ', '\\ ');
+
+                // Init repo
+                exec('git init ' + escapedPath);
+
+                if( config.openInSourcetree ){
+                    // Open in Sourcetree
+                    exec('open -a SourceTree ' + escapedPath + '/');
+                }
+            }
+
+            console.log('Running WP install...');
 
             // Show the WP install process
             runWpInstall();

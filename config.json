@@ -12,6 +12,9 @@
     "dbName": "yourDbNameHere",
     "dbPort": 8889,
 
-    "debugMode": true
+    "debugMode": true,
+
+    "gitInit": true,
+    "openInSourcetree": true
 
 }
